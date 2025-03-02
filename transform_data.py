@@ -3,19 +3,32 @@ import os
 
 def data_match(data,equipoL, equipoV):
     toRet = []
-    contD = 0
+    resultadosL = []
     cont = 0
+    contR = 0
+    for i in range(len(data)):          
+            if data['HomeTeam'][i] == equipoL and data['AwayTeam'][i] == equipoV and cont <= 10:
+                cont += 1
+                if data['FTR'][i] == 'H':
+                    toRet.append(equipoL)
+                elif data['FTR'][i] == 'D':
+                    toRet.append(equipoV)
+                else:
+                    toRet.append('empate')            
+
     for i in range(len(data)):
-        if data['HomeTeam'][i] == equipoL and data['AwayTeam'][i] == equipoV and contD<=10: #PARA AÑADIR LOS ENFRETAMIENTOS DIRECTOS
-            contD += 1
-            if data['FTR'][i] == 'H':
-                toRet.append(equipoL)
-            elif data['FTR'][i] == 'D':
-                toRet.append(equipoV)
-            else:
-                toRet.append('empate')
-        
-    new_data = pd.DataFrame({'enfrentamiento' : toRet})    
+        if contR < cont:
+            if data['HomeTeam'][i] == equipoL or data['AwayTeam'][i] == equipoL:
+                contR += 1
+                if data['FTR'][i] == 'H':
+                    resultadosL.append('Victoria')
+                elif data['FTR'][i] == 'D':
+                    resultadosL.append('Empate')
+                else:
+                    resultadosL.append('Derrota')
+            
+    wait = input("Press Enter to continue...")
+    new_data = pd.DataFrame({'enfrentamiento': toRet, 'resultados equipo local': resultadosL})
     return new_data
 
 
