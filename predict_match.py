@@ -9,10 +9,11 @@ class PredictMatch:
     def __init__(self):
         self.data = None
         self.model = RandomForestClassifier()
+        self.equipoV = input("Introduce el equipo visitante: ")
+        self.equipoL = input("Introduce el equipo local: ")
 
     def load_data(self):
         transformer = transform_data.DataTransformer()
-        transformer.load_data()
-        self.data = transformer.data
-        transformer.mostrar()
+        self.data = transformer.load_data(self.equipoL, self.equipoV)        
+        transformer.mostrar(self.data)
 
