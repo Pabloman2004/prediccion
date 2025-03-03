@@ -6,28 +6,28 @@ def data_match(data,equipoL, equipoV):
     resultadosL = []
     cont = 0
     contR = 0
-    for i in range(len(data)):          
-            if data['HomeTeam'][i] == equipoL and data['AwayTeam'][i] == equipoV and cont <= 10:
+    data_invertido = data.iloc[::-1].reset_index(drop=True)  # Invertir el orden de las filas
+    for i in range(len(data_invertido)):          
+            if data_invertido['HomeTeam'][i] == equipoL and data_invertido['AwayTeam'][i] == equipoV and cont <= 10:
                 cont += 1
-                if data['FTR'][i] == 'H':
+                if data_invertido['FTR'][i] == 'H':
                     toRet.append(equipoL)
-                elif data['FTR'][i] == 'D':
+                elif data_invertido['FTR'][i] == 'D':
                     toRet.append(equipoV)
                 else:
                     toRet.append('empate')            
 
-    for i in range(len(data)):
-        if contR < cont:
-            if data['HomeTeam'][i] == equipoL or data['AwayTeam'][i] == equipoL:
+    for i in range(len(data_invertido)):
+        if contR < cont:            
+            if data_invertido['HomeTeam'][i] == equipoL or data_invertido['AwayTeam'][i] == equipoL:
+                print(data_invertido['HomeTeam'][i], data_invertido['AwayTeam'][i], data_invertido['Date'][i])
                 contR += 1
-                if data['FTR'][i] == 'H':
+                if data_invertido['HomeTeam'][i] == equipoL and data_invertido['FTR'][i] == 'H' or data_invertido['AwayTeam'][i] == equipoL and data_invertido['FTR'][i] == 'A':
                     resultadosL.append('Victoria')
-                elif data['FTR'][i] == 'D':
+                elif data_invertido['FTR'][i] == 'D':
                     resultadosL.append('Empate')
                 else:
                     resultadosL.append('Derrota')
-            
-    wait = input("Press Enter to continue...")
     new_data = pd.DataFrame({'enfrentamiento': toRet, 'resultados equipo local': resultadosL})
     return new_data
 
